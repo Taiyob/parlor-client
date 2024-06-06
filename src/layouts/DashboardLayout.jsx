@@ -1,11 +1,12 @@
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
+import { BsCart2 } from "react-icons/bs";
 
-const Register = () => {
+const DashboardLayout = () => {
   return (
-    <>
-      <div className="px-40">
-        <nav className="flex items-center justify-between">
-          <div>
+    <div>
+      <div className="grid grid-cols-12">
+        <div className="col-span-12 bg-white">
+          <div className="flex items-center px-20 pt-5">
             <Link to="/" className="flex items-center p-2">
               <svg
                 width="128"
@@ -91,186 +92,86 @@ const Register = () => {
                 />
               </svg>
             </Link>
-          </div>
-          <div>
-            <ul className="items-stretch hidden space-x-3 font-semibold md:flex">
-              <li className="flex">
-                <Link className="flex items-center px-4 -mb-1 text-[#474747] text-xl">
-                  Home
-                </Link>
-              </li>
-              <li className="flex">
-                <Link className="flex items-center px-4 -mb-1 text-[#474747] text-xl">
-                  About us
-                </Link>
-              </li>
-              <li className="flex">
-                <Link className="flex items-center px-4 -mb-1 text-[#474747] text-xl">
-                  Projects
-                </Link>
-              </li>
-              <li className="flex">
-                <Link className="flex items-center px-4 -mb-1 text-[#474747] text-xl">
-                  Contact
-                </Link>
-              </li>
-              <li className="flex">
-                <Link to={'/dashboard'} className="flex items-center px-4 -mb-1 text-[#474747] text-xl">
-                  Admin
-                </Link>
-              </li>
-            </ul>
-          </div>
-          <button className="flex justify-end p-4">
-            <Link className="bg-[#F63E7B] flex items-center px-14 py-4 -mb-1 text-white text-xl rounded-lg">
-              Login
-            </Link>
-          </button>
-        </nav>
-      </div>
-      <div className="flex w-[600px] mx-auto mt-10 border border-solid border-slate-500">
-        <div className="flex flex-col items-start justify-start w-full p-6 bg-white sm:p-10">
-          <div className="mb-8">
-            <h1 className="my-3 text-2xl font-bold">Create an account</h1>
-          </div>
-          <form className="space-y-12">
-            <div className="space-y-4">
-              <div>
-                <input
-                  type="fname"
-                  name="fname"
-                  id="fname"
-                  placeholder="First Name"
-                  className="w-[450px] px-3 py-2 border-b focus:outline-none focus:border-b-2 font-semibold text-black"
-                />
-              </div>
-              <div>
-                <input
-                  type="lname"
-                  name="lname"
-                  id="lname"
-                  placeholder="Last Name"
-                  className="w-[450px] px-3 py-2 border-b focus:outline-none focus:border-b-2 font-semibold text-black"
-                />
-              </div>
-              <div>
-                <input
-                  type="email"
-                  name="email"
-                  id="email"
-                  placeholder="Username or Email"
-                  className="w-[450px] px-3 py-2 border-b focus:outline-none focus:border-b-2 font-semibold text-black"
-                />
-              </div>
-              <div>
-                <input
-                  type="password"
-                  name="password"
-                  id="password"
-                  placeholder="Password"
-                  className="w-[450px] px-3 py-2 border-b focus:outline-none focus:border-b-2 font-semibold text-black"
-                />
-              </div>
-              <div>
-                <input
-                  type="password"
-                  name="password"
-                  id="password"
-                  placeholder="Confirm Password"
-                  className="w-[450px] px-3 py-2 border-b focus:outline-none focus:border-b-2 font-semibold text-black"
-                />
-              </div>
+            <div className="flex justify-between gap-40 text-2xl font-bold">
+              <h2></h2>
+              <h2>Book</h2>
             </div>
-            <div className="space-y-2">
-              <div>
-                <button
-                  type="button"
-                  className="w-full px-8 py-3 font-semibold rounded bg-[#F63E7B] text-gray-50"
-                >
-                  Create account
-                </button>
-              </div>
-              <p className="px-6 text-sm text-center dark:text-gray-600">
-                Already have an account?
-                <Link
-                  to='/login'
-                  className="hover:underline text-[#F63E7B] ml-1"
-                >
-                  Sign in
-                </Link>
-                .
-              </p>
+            <div className="ml-auto text-2xl font-bold">
+              <h2>Pro Rasel</h2>
+              <h2></h2>
             </div>
-          </form>
+          </div>
+        </div>
+        <div className="col-span-2 min-h-screen px-20 bg-white mt-10">
+          <ul className="px-4 pb-4 space-y-3 w-80">
+            <li>
+              <Link className="flex items-center gap-2 text-xl">
+                <BsCart2 />
+                Book
+              </Link>
+            </li>
+            <li>
+              <Link className="flex items-center gap-2 text-xl">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M17.325 9.45L14.5417 3.88334C14.3338 3.46697 14.0139 3.11688 13.6178 2.87249C13.2218 2.62809 12.7654 2.49909 12.3 2.5H7.70001C7.23464 2.49909 6.77825 2.62809 6.38221 2.87249C5.98617 3.11688 5.66621 3.46697 5.45835 3.88334L2.67501 9.45C2.55893 9.68291 2.49899 9.93977 2.50001 10.2V15C2.50001 15.663 2.7634 16.2989 3.23225 16.7678C3.70109 17.2366 4.33697 17.5 5.00001 17.5H15C15.6631 17.5 16.2989 17.2366 16.7678 16.7678C17.2366 16.2989 17.5 15.663 17.5 15V10.2C17.501 9.93977 17.4411 9.68291 17.325 9.45ZM6.95001 4.625C7.0199 4.48631 7.12715 4.3699 7.25967 4.28892C7.39219 4.20793 7.54471 4.16559 7.70001 4.16667H12.3C12.4553 4.16559 12.6078 4.20793 12.7404 4.28892C12.8729 4.3699 12.9801 4.48631 13.05 4.625L15.3167 9.16667H4.68335L6.95001 4.625ZM15 15.8333H5.00001C4.779 15.8333 4.56704 15.7455 4.41076 15.5893C4.25448 15.433 4.16668 15.221 4.16668 15V10.8333H15.8333V15C15.8333 15.221 15.7455 15.433 15.5893 15.5893C15.433 15.7455 15.221 15.8333 15 15.8333Z"
+                    fill="#878787"
+                  />
+                  <path
+                    d="M13.3333 12.5H9.99996C9.77895 12.5 9.56698 12.5878 9.4107 12.7441C9.25442 12.9004 9.16663 13.1123 9.16663 13.3333C9.16663 13.5543 9.25442 13.7663 9.4107 13.9226C9.56698 14.0789 9.77895 14.1667 9.99996 14.1667H13.3333C13.5543 14.1667 13.7663 14.0789 13.9225 13.9226C14.0788 13.7663 14.1666 13.5543 14.1666 13.3333C14.1666 13.1123 14.0788 12.9004 13.9225 12.7441C13.7663 12.5878 13.5543 12.5 13.3333 12.5Z"
+                    fill="#878787"
+                  />
+                  <path
+                    d="M6.66671 14.1667C7.12694 14.1667 7.50004 13.7936 7.50004 13.3333C7.50004 12.8731 7.12694 12.5 6.66671 12.5C6.20647 12.5 5.83337 12.8731 5.83337 13.3333C5.83337 13.7936 6.20647 14.1667 6.66671 14.1667Z"
+                    fill="#878787"
+                  />
+                </svg>
+                Booking List
+              </Link>
+            </li>
+            <li>
+              <Link className="flex items-center gap-2 text-xl">
+                <svg
+                  width="18"
+                  height="17"
+                  viewBox="0 0 18 17"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M8.99996 7.99992C9.4602 7.99992 9.83329 7.62682 9.83329 7.16659C9.83329 6.70635 9.4602 6.33325 8.99996 6.33325C8.53972 6.33325 8.16663 6.70635 8.16663 7.16659C8.16663 7.62682 8.53972 7.99992 8.99996 7.99992Z"
+                    fill="#878787"
+                  />
+                  <path
+                    d="M12.3333 7.99992C12.7936 7.99992 13.1667 7.62682 13.1667 7.16659C13.1667 6.70635 12.7936 6.33325 12.3333 6.33325C11.8731 6.33325 11.5 6.70635 11.5 7.16659C11.5 7.62682 11.8731 7.99992 12.3333 7.99992Z"
+                    fill="#878787"
+                  />
+                  <path
+                    d="M5.66659 7.99992C6.12682 7.99992 6.49992 7.62682 6.49992 7.16659C6.49992 6.70635 6.12682 6.33325 5.66659 6.33325C5.20635 6.33325 4.83325 6.70635 4.83325 7.16659C4.83325 7.62682 5.20635 7.99992 5.66659 7.99992Z"
+                    fill="#878787"
+                  />
+                  <path
+                    d="M14.8333 0.5H3.16663C2.50358 0.5 1.8677 0.763392 1.39886 1.23223C0.930018 1.70107 0.666626 2.33696 0.666626 3V15.5C0.66688 15.6477 0.706367 15.7926 0.781043 15.92C0.855719 16.0474 0.962904 16.1526 1.09163 16.225C1.21617 16.2956 1.3568 16.3329 1.49996 16.3333C1.64953 16.3333 1.79633 16.293 1.92496 16.2167L5.66663 13.95C5.80493 13.8677 5.96412 13.8271 6.12496 13.8333H14.8333C15.4963 13.8333 16.1322 13.5699 16.6011 13.1011C17.0699 12.6323 17.3333 11.9964 17.3333 11.3333V3C17.3333 2.33696 17.0699 1.70107 16.6011 1.23223C16.1322 0.763392 15.4963 0.5 14.8333 0.5ZM15.6666 11.3333C15.6666 11.5543 15.5788 11.7663 15.4225 11.9226C15.2663 12.0789 15.0543 12.1667 14.8333 12.1667H6.12496C5.66981 12.1663 5.2232 12.2902 4.83329 12.525L2.33329 14.025V3C2.33329 2.77899 2.42109 2.56702 2.57737 2.41074C2.73365 2.25446 2.94561 2.16667 3.16663 2.16667H14.8333C15.0543 2.16667 15.2663 2.25446 15.4225 2.41074C15.5788 2.56702 15.6666 2.77899 15.6666 3V11.3333Z"
+                    fill="#878787"
+                  />
+                </svg>
+                Review
+              </Link>
+            </li>
+          </ul>
+        </div>
+        <div className="col-span-10 bg-[#f4f7fc]">
+          <Outlet />
         </div>
       </div>
-      <div className=" w-[350px] mx-auto space-y-4">
-        <div className="flex items-center pt-4 space-x-1">
-          <div className="flex-1 h-px bg-gray-300 sm:w-16"></div>
-          <p className="px-3 text-sm text-gray-600">or</p>
-          <div className="flex-1 h-px bg-gray-300 sm:w-16"></div>
-        </div>
-        <button
-          aria-label="Login with Google"
-          type="button"
-          className="flex items-center justify-between w-full p-4 space-x-4 border rounded-full"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="14"
-            height="14"
-            viewBox="0 0 14 14"
-          >
-            <path
-              fill="#4285f4"
-              fillOpacity="1"
-              fillRule="evenodd"
-              stroke="none"
-              d="M13.72 7.159c0-.496-.045-.974-.127-1.432H7v2.708h3.767c-.162.875-.655 1.616-1.397 2.113v1.756h2.263c1.323-1.219 2.087-3.013 2.087-5.145z"
-            ></path>
-            <path
-              fill="#34a853"
-              fillOpacity="1"
-              fillRule="evenodd"
-              stroke="none"
-              d="M7 14c1.89 0 3.475-.627 4.633-1.696L9.37 10.548c-.627.42-1.43.668-2.37.668-1.824 0-3.367-1.231-3.918-2.886H.745v1.814C1.896 12.43 4.264 14 7 14z"
-            ></path>
-            <path
-              fill="#fbbc05"
-              fillOpacity="1"
-              fillRule="evenodd"
-              stroke="none"
-              d="M3.083 8.33c-.14-.42-.22-.869-.22-1.33 0-.461.08-.91.22-1.33V3.856H.745C.27 4.801 0 5.87 0 7c0 1.13.27 2.199.745 3.144L3.083 8.33z"
-            ></path>
-            <path
-              fill="#ea4335"
-              fillOpacity="1"
-              fillRule="evenodd"
-              stroke="none"
-              d="M7 2.784c1.028 0 1.95.353 2.676 1.047l2.008-2.008C10.47.693 8.887 0 7 0 4.264 0 1.896 1.569.745 3.856L3.083 5.67C3.633 4.015 5.177 2.784 7 2.784z"
-            ></path>
-          </svg>
-          <p className="font-semibold">Continue with Google</p>
-          <p></p>
-        </button>
-        <button
-          aria-label="Login with Google"
-          type="button"
-          className="flex items-center justify-between w-full p-4 space-x-4 border rounded-full"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 32 32"
-            className="w-5 h-5 fill-current"
-          >
-            <path d="M16 0.396c-8.839 0-16 7.167-16 16 0 7.073 4.584 13.068 10.937 15.183 0.803 0.151 1.093-0.344 1.093-0.772 0-0.38-0.009-1.385-0.015-2.719-4.453 0.964-5.391-2.151-5.391-2.151-0.729-1.844-1.781-2.339-1.781-2.339-1.448-0.989 0.115-0.968 0.115-0.968 1.604 0.109 2.448 1.645 2.448 1.645 1.427 2.448 3.744 1.74 4.661 1.328 0.14-1.031 0.557-1.74 1.011-2.135-3.552-0.401-7.287-1.776-7.287-7.907 0-1.751 0.62-3.177 1.645-4.297-0.177-0.401-0.719-2.031 0.141-4.235 0 0 1.339-0.427 4.4 1.641 1.281-0.355 2.641-0.532 4-0.541 1.36 0.009 2.719 0.187 4 0.541 3.043-2.068 4.381-1.641 4.381-1.641 0.859 2.204 0.317 3.833 0.161 4.235 1.015 1.12 1.635 2.547 1.635 4.297 0 6.145-3.74 7.5-7.296 7.891 0.556 0.479 1.077 1.464 1.077 2.959 0 2.14-0.020 3.864-0.020 4.385 0 0.416 0.28 0.916 1.104 0.755 6.4-2.093 10.979-8.093 10.979-15.156 0-8.833-7.161-16-16-16z"></path>
-          </svg>
-          <p className="font-semibold">Continue with Github</p>
-          <p></p>
-        </button>
-      </div>
-    </>
+    </div>
   );
 };
 
-export default Register;
+export default DashboardLayout;
