@@ -123,6 +123,14 @@ const Navbar = () => {
               </Link>
             </li>
             <li className="flex">
+              <Link
+                to={'/dashboard'}
+                className="flex items-center px-4 -mb-1 text-[#474747] text-xl"
+              >
+                Dashboard
+              </Link>
+            </li>
+            <li className="flex">
                 <Link to='/register' className='bg-[#F63E7B] flex items-center px-14 -mb-1 text-white text-xl rounded-lg'>Login</Link>
             </li>
           </ul>

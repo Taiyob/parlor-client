@@ -1,7 +1,9 @@
 import { Link, Outlet } from "react-router-dom";
-import { BsCart2 } from "react-icons/bs";
+import { IoIosAdd } from "react-icons/io";
+import { LuUserPlus } from "react-icons/lu";
+import { BiCategory } from "react-icons/bi";
 
-const DashboardLayout = () => {
+const AdminLayout = () => {
   return (
     <div>
       <div className="grid grid-cols-12">
@@ -94,7 +96,7 @@ const DashboardLayout = () => {
             </Link>
             <div className="flex justify-between gap-40 text-2xl font-bold">
               <h2></h2>
-              <h2>Book</h2>
+              <h2>Order List</h2>
             </div>
             <div className="ml-auto text-2xl font-bold">
               <h2>Pro Rasel</h2>
@@ -106,16 +108,7 @@ const DashboardLayout = () => {
           <ul className="px-4 pb-4 space-y-3 w-80">
             <li>
               <Link
-                to="/dashboard/booking"
-                className="flex items-center gap-2 text-xl"
-              >
-                <BsCart2 />
-                Book
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/dashboard/booking-list"
+                to="/admin-dashboard/order-list"
                 className="flex items-center gap-2 text-xl"
               >
                 <svg
@@ -138,39 +131,34 @@ const DashboardLayout = () => {
                     fill="#878787"
                   />
                 </svg>
-                Booking List
+                Order List
               </Link>
             </li>
             <li>
               <Link
-                to="/dashboard/review"
+                to="/admin-dashboard/add-service"
                 className="flex items-center gap-2 text-xl"
               >
-                <svg
-                  width="18"
-                  height="17"
-                  viewBox="0 0 18 17"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M8.99996 7.99992C9.4602 7.99992 9.83329 7.62682 9.83329 7.16659C9.83329 6.70635 9.4602 6.33325 8.99996 6.33325C8.53972 6.33325 8.16663 6.70635 8.16663 7.16659C8.16663 7.62682 8.53972 7.99992 8.99996 7.99992Z"
-                    fill="#878787"
-                  />
-                  <path
-                    d="M12.3333 7.99992C12.7936 7.99992 13.1667 7.62682 13.1667 7.16659C13.1667 6.70635 12.7936 6.33325 12.3333 6.33325C11.8731 6.33325 11.5 6.70635 11.5 7.16659C11.5 7.62682 11.8731 7.99992 12.3333 7.99992Z"
-                    fill="#878787"
-                  />
-                  <path
-                    d="M5.66659 7.99992C6.12682 7.99992 6.49992 7.62682 6.49992 7.16659C6.49992 6.70635 6.12682 6.33325 5.66659 6.33325C5.20635 6.33325 4.83325 6.70635 4.83325 7.16659C4.83325 7.62682 5.20635 7.99992 5.66659 7.99992Z"
-                    fill="#878787"
-                  />
-                  <path
-                    d="M14.8333 0.5H3.16663C2.50358 0.5 1.8677 0.763392 1.39886 1.23223C0.930018 1.70107 0.666626 2.33696 0.666626 3V15.5C0.66688 15.6477 0.706367 15.7926 0.781043 15.92C0.855719 16.0474 0.962904 16.1526 1.09163 16.225C1.21617 16.2956 1.3568 16.3329 1.49996 16.3333C1.64953 16.3333 1.79633 16.293 1.92496 16.2167L5.66663 13.95C5.80493 13.8677 5.96412 13.8271 6.12496 13.8333H14.8333C15.4963 13.8333 16.1322 13.5699 16.6011 13.1011C17.0699 12.6323 17.3333 11.9964 17.3333 11.3333V3C17.3333 2.33696 17.0699 1.70107 16.6011 1.23223C16.1322 0.763392 15.4963 0.5 14.8333 0.5ZM15.6666 11.3333C15.6666 11.5543 15.5788 11.7663 15.4225 11.9226C15.2663 12.0789 15.0543 12.1667 14.8333 12.1667H6.12496C5.66981 12.1663 5.2232 12.2902 4.83329 12.525L2.33329 14.025V3C2.33329 2.77899 2.42109 2.56702 2.57737 2.41074C2.73365 2.25446 2.94561 2.16667 3.16663 2.16667H14.8333C15.0543 2.16667 15.2663 2.25446 15.4225 2.41074C15.5788 2.56702 15.6666 2.77899 15.6666 3V11.3333Z"
-                    fill="#878787"
-                  />
-                </svg>
-                Review
+                <IoIosAdd />
+                Add service
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/admin-dashboard/make-admin"
+                className="flex items-center gap-2 text-xl"
+              >
+                <LuUserPlus />
+                Make Admin
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/admin-dashboard/manage-service"
+                className="flex items-center gap-2 text-xl"
+              >
+                <BiCategory />
+                Manage Services
               </Link>
             </li>
           </ul>
@@ -183,4 +171,4 @@ const DashboardLayout = () => {
   );
 };
 
-export default DashboardLayout;
+export default AdminLayout;

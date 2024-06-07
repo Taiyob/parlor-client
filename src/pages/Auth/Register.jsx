@@ -115,7 +115,7 @@ const Register = () => {
                 </Link>
               </li>
               <li className="flex">
-                <Link to={'/dashboard'} className="flex items-center px-4 -mb-1 text-[#474747] text-xl">
+                <Link to='/admin-dashboard' className="flex items-center px-4 -mb-1 text-[#474747] text-xl">
                   Admin
                 </Link>
               </li>
