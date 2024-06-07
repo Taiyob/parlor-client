@@ -1,6 +1,56 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import useAuthContext from "../../hooks/useAuthContext";
+import toast from "react-hot-toast";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { login, googleLogin } = useAuthContext();
+  //const from = location?.state?.from?.pathname || "/";
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    const form = e.target;
+
+    const toastId = toast.loading('Wait...');
+    const email = form?.email?.value;
+    const password = form?.password?.value;
+    form.reset();
+
+    try {
+      const processLogin = await login(email, password);
+      console.log(processLogin);
+      if (processLogin?.user?.email) {
+        toast.success('Successfully login', { id: toastId });
+        //navigate(from, { replace: true });
+        navigate(location?.state ? location?.state : "/");
+        return;
+      }
+    } catch (e) {
+      const errorMessage = e.message.split(' ')[1];
+      const fullMessage = errorMessage + ': Credential not match';
+      toast.error(fullMessage, { id: toastId });
+      return;
+    }
+  }
+
+  const handleGoogleLogin = async () => {
+    try {
+      const successGoogle = await googleLogin();
+      if (successGoogle?.user?.email) {
+        toast.success('Sucessfully loggedIn');
+        navigate(location?.state ? location?.state : "/");
+        return;
+      }
+    } catch (e) {
+      const errorMessage = e.message.split(' ')[1];
+      const fullMessage = errorMessage + ': Credential not match';
+      toast.error(fullMessage);
+      return;
+    }
+  }
+
   return (
     <div className="flex flex-col items-center justify-center h-full">
       <div className="mt-40 h-2/3">
@@ -91,8 +141,9 @@ const Login = () => {
       <h2 className="mt-20 text-3xl font-bold">Login With</h2>
       <div className="mt-10">
         <button
+          onClick={handleGoogleLogin}
           aria-label="Login with Google"
-          type="button"
+          type="submit"
           className="flex items-center justify-between w-[500px] p-3 space-x-4 border rounded-full"
         >
           <svg
@@ -141,6 +192,37 @@ const Login = () => {
         </Link>
         .
       </p>
+      <h4 className="mt-2 text-2xl text-center text-black">OR</h4>
+      <div className="mt-4">
+        <form onSubmit={handleLogin} className="space-y-3">
+          <div>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              placeholder="Username or Email"
+              className="w-[450px] px-3 py-2 border border-[#F63E7B] focus:outline-none focus:border-b-2 font-semibold text-black"
+            />
+          </div>
+          <div>
+            <input
+              type="password"
+              name="password"
+              id="password"
+              placeholder="Password"
+              className="w-[450px] px-3 py-2 border border-[#F63E7B] focus:outline-none focus:border-b-2 font-semibold text-black"
+            />
+          </div>
+          <div className="flex justify-center">
+            <button
+              type="submit"
+              className="w-1/3 px-2 py-3 font-semibold rounded bg-[#F63E7B] text-gray-50"
+            >
+              Login
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

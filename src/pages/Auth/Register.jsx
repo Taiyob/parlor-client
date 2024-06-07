@@ -1,6 +1,58 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import useAuthContext from "../../hooks/useAuthContext";
+import toast from "react-hot-toast";
 
 const Register = () => {
+  const [matchPassword, setMatchPassword] = useState(false);
+  const { createUser, logout, googleLogin } = useAuthContext();
+  const navigate = useNavigate();
+
+  const handleSignup = async (e) => {
+    e.preventDefault();
+
+    const form = e.target;
+    const toastId = toast.loading('Account is creating....');
+    const first_name = form?.fname?.value;
+    const last_name = form?.lname?.value;
+    const email = form?.email?.value;
+    const password = form?.password?.value;
+    const confirm_password = form?.cpassword?.value;
+    form.reset();
+
+    try {
+      if (password !== confirm_password) {
+        setMatchPassword(true);
+        toast.error('Something went wrong, try again', { id: toastId });
+        return;
+      } else if (password === confirm_password) {
+        const register = await createUser(email, password);
+        console.log(register);
+        toast.success('Creat successfully', { id: toastId });
+        logout();
+        navigate('/login');
+      }
+    } catch (e) {
+      toast.error('Something went wrong, try again', e.message, { id: toastId });
+    }
+  }
+
+  const handleGoogleLogin = async () => {
+    try {
+      const successGoogle = await googleLogin();
+      if (successGoogle?.user?.email) {
+        toast.success('Sucessfully loggedIn');
+        navigate(location?.state ? location?.state : "/");
+        return;
+      }
+    } catch (e) {
+      const errorMessage = e.message.split(' ')[1];
+      const fullMessage = errorMessage + ': Credential not match';
+      toast.error(fullMessage);
+      return;
+    }
+  }
+
   return (
     <>
       <div className="px-40">
@@ -133,11 +185,11 @@ const Register = () => {
           <div className="mb-8">
             <h1 className="my-3 text-2xl font-bold">Create an account</h1>
           </div>
-          <form className="space-y-12">
+          <form onSubmit={handleSignup} className="space-y-12">
             <div className="space-y-4">
               <div>
                 <input
-                  type="fname"
+                  type="text"
                   name="fname"
                   id="fname"
                   placeholder="First Name"
@@ -146,7 +198,7 @@ const Register = () => {
               </div>
               <div>
                 <input
-                  type="lname"
+                  type="text"
                   name="lname"
                   id="lname"
                   placeholder="Last Name"
@@ -174,17 +226,20 @@ const Register = () => {
               <div>
                 <input
                   type="password"
-                  name="password"
-                  id="password"
+                  name="cpassword"
+                  id="cpassword"
                   placeholder="Confirm Password"
                   className="w-[450px] px-3 py-2 border-b focus:outline-none focus:border-b-2 font-semibold text-black"
                 />
+                {
+                  matchPassword && <p className="font-bold text-red-600">Password not matched.</p>
+                }
               </div>
             </div>
             <div className="space-y-2">
               <div>
                 <button
-                  type="button"
+                  type="submit"
                   className="w-full px-8 py-3 font-semibold rounded bg-[#F63E7B] text-gray-50"
                 >
                   Create account
@@ -211,8 +266,9 @@ const Register = () => {
           <div className="flex-1 h-px bg-gray-300 sm:w-16"></div>
         </div>
         <button
+          onClick={handleGoogleLogin}
           aria-label="Login with Google"
-          type="button"
+          type="submit"
           className="flex items-center justify-between w-full p-4 space-x-4 border rounded-full"
         >
           <svg

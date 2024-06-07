@@ -15,6 +15,7 @@ import OrderList from "../pages/Admin/OrderList";
 import AddService from "../pages/Admin/AddService";
 import MakeAdmin from "../pages/Admin/MakeAdmin";
 import ManageServices from "../pages/Admin/ManageServices";
+import PrivateRoute from "./PrivateRoute";
 
 const router = createBrowserRouter([
   {
@@ -38,7 +39,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <DashboardLayout />,
+    element: <PrivateRoute><DashboardLayout /></PrivateRoute>,
     children: [
       {
         index: true,
@@ -60,7 +61,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/admin-dashboard",
-    element: <AdminLayout />,
+    element: <PrivateRoute><AdminLayout /></PrivateRoute>,
     children: [
       {
         index: true,

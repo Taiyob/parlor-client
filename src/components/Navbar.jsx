@@ -1,10 +1,17 @@
 import { Link } from "react-router-dom";
+import useAuthContext from "../hooks/useAuthContext";
 
 const Navbar = () => {
+  const { user, logout } = useAuthContext();
+
+  const handleLogout = async() => {
+    await logout();
+  }
+
   return (
     <div>
       <header className="p-4 text-black">
-        <div className="flex justify-between h-16 container mx-auto">
+        <div className="container flex justify-between h-16 mx-auto">
           <Link
             to='/'
             className="flex items-center p-2"
@@ -131,7 +138,9 @@ const Navbar = () => {
               </Link>
             </li>
             <li className="flex">
-                <Link to='/register' className='bg-[#F63E7B] flex items-center px-14 -mb-1 text-white text-xl rounded-lg'>Login</Link>
+              {
+                user ? <Link onClick={handleLogout} className='bg-[#F63E7B] flex items-center px-14 -mb-1 text-white text-xl rounded-lg'>Logout</Link> : <Link to='/register' className='bg-[#F63E7B] flex items-center px-14 -mb-1 text-white text-xl rounded-lg'>Login</Link>
+              }
             </li>
           </ul>
           <button className="flex justify-end p-4 md:hidden">
