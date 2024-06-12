@@ -102,7 +102,7 @@ const DashboardLayout = () => {
             </div>
           </div>
         </div>
-        <div className="col-span-2 min-h-screen px-20 bg-white mt-10">
+        <div className="col-span-2 min-h-screen px-20 bg-white mt-10 flex flex-col justify-between">
           <ul className="px-4 pb-4 space-y-3 w-80">
             <li>
               <Link
@@ -174,6 +174,10 @@ const DashboardLayout = () => {
               </Link>
             </li>
           </ul>
+          <div className="w-96 space-x-1 pb-5">
+            <Link to='/dashboard/profile'><button className="bg-[#F63E7B] text-white p-2 rounded-lg">Profile</button></Link>
+            <Link><button className="bg-[#F63E7B] text-white p-2 rounded-lg">Logout</button></Link>
+          </div>
         </div>
         <div className="col-span-10 bg-[#f4f7fc]">
           <Outlet />

@@ -16,6 +16,7 @@ import AddService from "../pages/Admin/AddService";
 import MakeAdmin from "../pages/Admin/MakeAdmin";
 import ManageServices from "../pages/Admin/ManageServices";
 import PrivateRoute from "./PrivateRoute";
+import Profile from "../pages/Dashboard/Profile";
 
 const router = createBrowserRouter([
   {
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
       {
         path: "review",
         element: <Review />,
+      },
+      {
+        path: "profile",
+        element: <Profile />
       },
     ],
   },

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import useAuthContext from "../../hooks/useAuthContext";
 import toast from "react-hot-toast";
+import axios from "axios";
 
 const Register = () => {
   const [matchPassword, setMatchPassword] = useState(false);
@@ -28,12 +29,19 @@ const Register = () => {
       } else if (password === confirm_password) {
         const register = await createUser(email, password);
         console.log(register);
-        toast.success('Creat successfully', { id: toastId });
-        logout();
-        navigate('/login');
+        if (register?.user?.email) {
+          const userData = { first_name, last_name, email };
+          await axios.post('/user-register', userData);
+          toast.success('Creat successfully', { id: toastId });
+          logout();
+          navigate('/login');
+        }
       }
     } catch (e) {
-      toast.error('Something went wrong, try again', e.message, { id: toastId });
+      console.error('Error:', e);
+      const errorMessage = e.message.split(' ')[1];
+      const fullMessage = errorMessage + ': Credential not match';
+      toast.error(fullMessage, { id: toastId });
     }
   }
 
