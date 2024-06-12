@@ -31,8 +31,8 @@ const Register = () => {
         console.log(register);
         if (register?.user?.email) {
           const userData = { first_name, last_name, email };
-          await axios.post('/user-register', userData);
-          toast.success('Creat successfully', { id: toastId });
+          await axios.post('http://localhost:3000/user-register', userData);
+          toast.success('Create successfully', { id: toastId });
           logout();
           navigate('/login');
         }
@@ -40,7 +40,7 @@ const Register = () => {
     } catch (e) {
       console.error('Error:', e);
       const errorMessage = e.message.split(' ')[1];
-      const fullMessage = errorMessage + ': Credential not match';
+      const fullMessage = errorMessage + ': Something went wrong';
       toast.error(fullMessage, { id: toastId });
     }
   }

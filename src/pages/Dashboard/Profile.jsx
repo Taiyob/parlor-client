@@ -1,4 +1,32 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
+import useAuthContext from "../../hooks/useAuthContext";
+
 const Profile = () => {
+    const { user } = useAuthContext();
+    console.log(user?.email);
+    const [loggedUser, setLoggedUser] = useState();
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('http://localhost:3000/user-get');
+                console.log(response.data);
+                
+                const userData = response.data.find(item => {
+                    console.log("Checking email:", item.email);
+                    return item.email === user.email;
+                });
+                console.log("User data:", userData);
+                setLoggedUser(userData);
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+            }
+        };
+
+        fetchData();
+    }, [user])
+
     return (
         <div>
             <div className="max-w-md p-8 sm:flex sm:space-x-6 dark:bg-gray-900 dark:text-gray-100">
@@ -7,21 +35,21 @@ const Profile = () => {
                 </div>
                 <div className="flex flex-col space-y-4">
                     <div>
-                        <h2 className="text-2xl font-semibold">Leroy Jenkins</h2>
-                        <span className="text-sm dark:text-gray-400">General manager</span>
+                        <h2 className="text-2xl font-semibold">{loggedUser?.first_name + ' ' + loggedUser?.last_name}</h2>
+                        <span className="text-sm dark:text-gray-400">General user</span>
                     </div>
                     <div className="space-y-1">
                         <span className="flex items-center space-x-2">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" aria-label="Email address" className="w-4 h-4">
                                 <path fill="currentColor" d="M274.6,25.623a32.006,32.006,0,0,0-37.2,0L16,183.766V496H496V183.766ZM464,402.693,339.97,322.96,464,226.492ZM256,51.662,454.429,193.4,311.434,304.615,256,268.979l-55.434,35.636L57.571,193.4ZM48,226.492,172.03,322.96,48,402.693ZM464,464H48V440.735L256,307.021,464,440.735Z"></path>
                             </svg>
-                            <span className="dark:text-gray-400">leroy.jenkins@company.com</span>
+                            <span className="dark:text-gray-400">{loggedUser?.email}</span>
                         </span>
                         <span className="flex items-center space-x-2">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" aria-label="Phonenumber" className="w-4 h-4">
                                 <path fill="currentColor" d="M449.366,89.648l-.685-.428L362.088,46.559,268.625,171.176l43,57.337a88.529,88.529,0,0,1-83.115,83.114l-57.336-43L46.558,362.088l42.306,85.869.356.725.429.684a25.085,25.085,0,0,0,21.393,11.857h22.344A327.836,327.836,0,0,0,461.222,133.386V111.041A25.084,25.084,0,0,0,449.366,89.648Zm-20.144,43.738c0,163.125-132.712,295.837-295.836,295.837h-18.08L87,371.76l84.18-63.135,46.867,35.149h5.333a120.535,120.535,0,0,0,120.4-120.4v-5.333l-35.149-46.866L371.759,87l57.463,28.311Z"></path>
                             </svg>
-                            <span className="dark:text-gray-400">+25 381 77 983</span>
+                            <span className="dark:text-gray-400">+XX XXX XX XX</span>
                         </span>
                     </div>
                 </div>
@@ -36,20 +64,20 @@ const Profile = () => {
                         <fieldset className="grid grid-cols-4 gap-6 p-6 rounded-md shadow-sm dark:bg-gray-900">
                             <div className="space-y-2 col-span-full lg:col-span-1">
                                 <p className="font-medium">Personal Inormation</p>
-                                <p className="text-xs">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Adipisci fuga autem eum!</p>
+                                <p className="text-xs">Give your personal information here</p>
                             </div>
                             <div className="grid grid-cols-6 gap-4 col-span-full lg:col-span-3">
                                 <div className="col-span-full sm:col-span-3">
                                     <label htmlFor="firstname" className="text-sm">First name</label>
-                                    <input id="firstname" type="text" placeholder="First name" className="w-full py-4 pl-5 rounded-md border border-black text-gray-900 focus:outline-none" />
+                                    <input defaultValue={loggedUser?.first_name} id="firstname" type="text" placeholder="First name" className="w-full py-4 pl-5 rounded-md border border-black text-gray-900 focus:outline-none" />
                                 </div>
                                 <div className="col-span-full sm:col-span-3">
                                     <label htmlFor="lastname" className="text-sm">Last name</label>
-                                    <input id="lastname" type="text" placeholder="Last name" className="w-full py-4 pl-5 rounded-md border border-black text-gray-900 focus:outline-none" />
+                                    <input defaultValue={loggedUser?.last_name} id="lastname" type="text" placeholder="Last name" className="w-full py-4 pl-5 rounded-md border border-black text-gray-900 focus:outline-none" />
                                 </div>
                                 <div className="col-span-full sm:col-span-3">
                                     <label htmlFor="email" className="text-sm">Email</label>
-                                    <input id="email" type="email" placeholder="Email" className="w-full py-4 pl-5 rounded-md border border-black text-gray-900 focus:outline-none" />
+                                    <input defaultValue={loggedUser?.email} id="email" type="email" placeholder="Email" className="w-full py-4 pl-5 rounded-md border border-black text-gray-900 focus:outline-none" />
                                 </div>
                                 <div className="col-span-full">
                                     <label htmlFor="address" className="text-sm">Address</label>
@@ -72,7 +100,7 @@ const Profile = () => {
                         <fieldset className="grid grid-cols-4 gap-6 p-6 rounded-md shadow-sm dark:bg-gray-900">
                             <div className="space-y-2 col-span-full lg:col-span-1">
                                 <p className="font-medium">Profile</p>
-                                <p className="text-xs">Adipisci fuga autem eum!</p>
+                                <p className="text-xs">This info show your profile</p>
                             </div>
                             <div className="grid grid-cols-6 gap-4 col-span-full lg:col-span-3">
                                 <div className="col-span-full sm:col-span-3">
@@ -80,7 +108,7 @@ const Profile = () => {
                                     <input id="username" type="text" placeholder="Username" className="w-full py-4 pl-5 rounded-md border border-black text-gray-900 focus:outline-none" />
                                 </div>
                                 <div className="col-span-full sm:col-span-3">
-                                    <label htmlFor="website" className="text-sm">Website</label>
+                                    <label htmlFor="website" className="text-sm">Image Url</label>
                                     <input id="website" type="text" placeholder="https://" className="w-full py-4 pl-5 rounded-md border border-black text-gray-900 focus:outline-none" />
                                 </div>
                                 <div className="col-span-full">

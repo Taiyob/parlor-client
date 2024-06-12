@@ -60,7 +60,8 @@ const router = createBrowserRouter([
       },
       {
         path: "profile",
-        element: <Profile />
+        element: <Profile />,
+        //loader: ({params})=>fetch(`http://localhost:3000/user-data/${params.id}`)
       },
     ],
   },
