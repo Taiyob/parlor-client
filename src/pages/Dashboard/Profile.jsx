@@ -1,22 +1,26 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import useAuthContext from "../../hooks/useAuthContext";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Profile = () => {
     const { user } = useAuthContext();
     console.log(user?.email);
     const [loggedUser, setLoggedUser] = useState();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await axios.get('http://localhost:3000/user-get');
                 console.log(response.data);
-                
+
                 const userData = response.data.find(item => {
                     console.log("Checking email:", item.email);
                     return item.email === user.email;
                 });
+
                 console.log("User data:", userData);
                 setLoggedUser(userData);
             } catch (error) {
@@ -25,7 +29,42 @@ const Profile = () => {
         };
 
         fetchData();
-    }, [user])
+    }, [user]);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        const form = e.target;
+
+        const first_name = form?.first_name?.value;
+        const last_name = form?.last_name?.value;
+        const email = form?.email?.value;
+        const phone = form?.phone?.value;
+        const address = form?.address?.value;
+        const city = form?.city?.value;
+        const state = form?.state?.value;
+        const zip = form?.zip?.value;
+        const username = form?.username?.value;
+        const image = form?.image?.value;
+        const description = form?.description?.value;
+
+        const userInfo = { first_name, last_name, email, phone, address, city, state, zip, username, image, description };
+
+        try {
+            const updateUserData = axios.patch(`http://localhost:3000/user-update/${loggedUser?._id}`, userInfo);
+            console.log(updateUserData);
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Update successfully",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            navigate('/');
+        } catch (e) {
+            console.error('Error fetching user data:', e);
+        }
+    }
 
     return (
         <div>
@@ -49,7 +88,7 @@ const Profile = () => {
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" aria-label="Phonenumber" className="w-4 h-4">
                                 <path fill="currentColor" d="M449.366,89.648l-.685-.428L362.088,46.559,268.625,171.176l43,57.337a88.529,88.529,0,0,1-83.115,83.114l-57.336-43L46.558,362.088l42.306,85.869.356.725.429.684a25.085,25.085,0,0,0,21.393,11.857h22.344A327.836,327.836,0,0,0,461.222,133.386V111.041A25.084,25.084,0,0,0,449.366,89.648Zm-20.144,43.738c0,163.125-132.712,295.837-295.836,295.837h-18.08L87,371.76l84.18-63.135,46.867,35.149h5.333a120.535,120.535,0,0,0,120.4-120.4v-5.333l-35.149-46.866L371.759,87l57.463,28.311Z"></path>
                             </svg>
-                            <span className="dark:text-gray-400">+XX XXX XX XX</span>
+                            <span className="dark:text-gray-400">{user?.email ? loggedUser?.phone : '+XX XXX XX XX'}</span>
                         </span>
                     </div>
                 </div>
@@ -60,7 +99,7 @@ const Profile = () => {
             </div>
             <div className="">
                 <section className="p-6">
-                    <form action="" className="container flex flex-col mx-auto space-y-12">
+                    <form onSubmit={handleSubmit} className="container flex flex-col mx-auto space-y-12">
                         <fieldset className="grid grid-cols-4 gap-6 p-6 rounded-md shadow-sm dark:bg-gray-900">
                             <div className="space-y-2 col-span-full lg:col-span-1">
                                 <p className="font-medium">Personal Inormation</p>
@@ -69,31 +108,35 @@ const Profile = () => {
                             <div className="grid grid-cols-6 gap-4 col-span-full lg:col-span-3">
                                 <div className="col-span-full sm:col-span-3">
                                     <label htmlFor="firstname" className="text-sm">First name</label>
-                                    <input defaultValue={loggedUser?.first_name} id="firstname" type="text" placeholder="First name" className="w-full py-4 pl-5 rounded-md border border-black text-gray-900 focus:outline-none" />
+                                    <input value={loggedUser?.first_name} name="first_name" readOnly id="firstname" type="text" placeholder="First name" className="w-full py-4 pl-5 rounded-md border border-black text-gray-900 focus:outline-none" />
                                 </div>
                                 <div className="col-span-full sm:col-span-3">
                                     <label htmlFor="lastname" className="text-sm">Last name</label>
-                                    <input defaultValue={loggedUser?.last_name} id="lastname" type="text" placeholder="Last name" className="w-full py-4 pl-5 rounded-md border border-black text-gray-900 focus:outline-none" />
+                                    <input value={loggedUser?.last_name} name="last_name" readOnly id="lastname" type="text" placeholder="Last name" className="w-full py-4 pl-5 rounded-md border border-black text-gray-900 focus:outline-none" />
                                 </div>
                                 <div className="col-span-full sm:col-span-3">
                                     <label htmlFor="email" className="text-sm">Email</label>
-                                    <input defaultValue={loggedUser?.email} id="email" type="email" placeholder="Email" className="w-full py-4 pl-5 rounded-md border border-black text-gray-900 focus:outline-none" />
+                                    <input value={loggedUser?.email} name="email" readOnly id="email" type="email" placeholder="Email" className="w-full py-4 pl-5 rounded-md border border-black text-gray-900 focus:outline-none" />
+                                </div>
+                                <div className="col-span-full sm:col-span-3">
+                                    <label htmlFor="phone" className="text-sm">Phone</label>
+                                    <input defaultValue={user?.email ? loggedUser?.phone : ''} name="phone" id="phone" type="number" placeholder="Phone" className="w-full py-4 pl-5 rounded-md border border-black text-gray-900 focus:outline-none" />
                                 </div>
                                 <div className="col-span-full">
                                     <label htmlFor="address" className="text-sm">Address</label>
-                                    <input id="address" type="text" placeholder="" className="w-full py-4 pl-5 rounded-md border border-black text-gray-900 focus:outline-none" />
+                                    <input defaultValue={user?.email ? loggedUser?.address : ''} name="address" id="address" type="text" placeholder="" className="w-full py-4 pl-5 rounded-md border border-black text-gray-900 focus:outline-none" />
                                 </div>
                                 <div className="col-span-full sm:col-span-2">
                                     <label htmlFor="city" className="text-sm">City</label>
-                                    <input id="city" type="text" placeholder="" className="w-full py-4 pl-5 rounded-md border border-black text-gray-900 focus:outline-none" />
+                                    <input defaultValue={user?.email ? loggedUser?.city : ''} name="city" id="city" type="text" placeholder="" className="w-full py-4 pl-5 rounded-md border border-black text-gray-900 focus:outline-none" />
                                 </div>
                                 <div className="col-span-full sm:col-span-2">
                                     <label htmlFor="state" className="text-sm">State / Province</label>
-                                    <input id="state" type="text" placeholder="" className="w-full py-4 pl-5 rounded-md border border-black text-gray-900 focus:outline-none" />
+                                    <input defaultValue={user?.email ? loggedUser?.state : ''} name="state" id="state" type="text" placeholder="" className="w-full py-4 pl-5 rounded-md border border-black text-gray-900 focus:outline-none" />
                                 </div>
                                 <div className="col-span-full sm:col-span-2">
                                     <label htmlFor="zip" className="text-sm">ZIP / Postal</label>
-                                    <input id="zip" type="text" placeholder="" className="w-full py-4 pl-5 rounded-md border border-black text-gray-900 focus:outline-none" />
+                                    <input defaultValue={user?.email ? loggedUser?.zip : ''} id="zip" name="zip" type="number" placeholder="" className="w-full py-4 pl-5 rounded-md border border-black text-gray-900 focus:outline-none" />
                                 </div>
                             </div>
                         </fieldset>
@@ -105,21 +148,21 @@ const Profile = () => {
                             <div className="grid grid-cols-6 gap-4 col-span-full lg:col-span-3">
                                 <div className="col-span-full sm:col-span-3">
                                     <label htmlFor="username" className="text-sm">Username</label>
-                                    <input id="username" type="text" placeholder="Username" className="w-full py-4 pl-5 rounded-md border border-black text-gray-900 focus:outline-none" />
+                                    <input defaultValue={user?.email ? loggedUser?.username : ''} name="username" id="username" type="text" placeholder="Username" className="w-full py-4 pl-5 rounded-md border border-black text-gray-900 focus:outline-none" />
                                 </div>
                                 <div className="col-span-full sm:col-span-3">
-                                    <label htmlFor="website" className="text-sm">Image Url</label>
-                                    <input id="website" type="text" placeholder="https://" className="w-full py-4 pl-5 rounded-md border border-black text-gray-900 focus:outline-none" />
+                                    <label htmlFor="image" className="text-sm">Image Url</label>
+                                    <input defaultValue={user?.email ? loggedUser?.image : ''} name="image" id="image" type="text" placeholder="https://" className="w-full py-4 pl-5 rounded-md border border-black text-gray-900 focus:outline-none" />
                                 </div>
                                 <div className="col-span-full">
                                     <label htmlFor="bio" className="text-sm">Bio</label>
-                                    <textarea id="bio" placeholder="" className="w-full h-40 rounded-md border border-black text-gray-900 focus:outline-none"></textarea>
+                                    <textarea defaultValue={user?.email ? loggedUser?.description : ''} name="description" id="bio" placeholder="" className="w-full h-40 rounded-md border border-black text-gray-900 focus:outline-none"></textarea>
                                 </div>
                                 <div className="col-span-full">
                                     <label htmlFor="bio" className="text-sm">Photo</label>
                                     <div className="flex items-center space-x-2">
                                         <img src="https://source.unsplash.com/30x30/?random" alt="" className="w-10 h-10 rounded-full" />
-                                        <button type="button" className="px-4 py-2 border rounded-md bg-[#F63E7B]">Change</button>
+                                        <button type="submit" className="px-4 py-2 border rounded-md bg-[#F63E7B]">Update</button>
                                     </div>
                                 </div>
                             </div>
